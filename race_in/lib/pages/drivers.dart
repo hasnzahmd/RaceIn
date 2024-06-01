@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:country_flags/country_flags.dart';
-//import 'package:race_in/constants/clean_team_name.dart';
 import '../components/custom_app_bar.dart';
+import '../components/glowing_dot.dart';
 import '../data/data_service.dart';
 import '../constants/driver_details.dart';
 import '../constants/team_details.dart';
@@ -40,15 +40,15 @@ class _DriversPageState extends State<DriversPage> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
                 mainAxisExtent: 160,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
+                mainAxisSpacing: 5.0,
               ),
               itemCount: drivers.length,
               itemBuilder: (context, index) {
                 final driver = drivers[index]['data'][0];
-                String imageUrl = '';
+                final driverName = driver['name'];
 
                 int teamId = driver['teams'][0]['team']['id'];
+                if (teamId == 8) teamId = 18;
 
                 String teamName = '';
                 for (var team in teamDetails) {
@@ -57,8 +57,9 @@ class _DriversPageState extends State<DriversPage> {
                   }
                 }
 
+                String imageUrl = '';
                 for (var driverDetail in driverDetails) {
-                  if (driverDetail['name'] == driver['name']) {
+                  if (driverDetail['name'] == driverName) {
                     imageUrl = driverDetail['url'];
                   }
                 }
@@ -67,7 +68,7 @@ class _DriversPageState extends State<DriversPage> {
 
                 return Card(
                   margin: const EdgeInsets.only(
-                    top: 1,
+                    top: 2,
                     left: 5,
                     right: 5,
                   ),
@@ -76,7 +77,7 @@ class _DriversPageState extends State<DriversPage> {
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: Color(int.parse(teamColor)),
-                          width: 4,
+                          width: 2,
                         ),
                         borderRadius: BorderRadius.circular(5)),
                     child: Row(
@@ -88,25 +89,28 @@ class _DriversPageState extends State<DriversPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Text(
+                                driverName,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
                                   Text(
-                                    driver['name'],
+                                    teamName,
                                     style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
+                                  const SizedBox(width: 5),
+                                  GlowingDot(dotColor: teamColor)
                                 ],
                               ),
-                              const SizedBox(height: 5),
-                              Text(
-                                teamName,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              const SizedBox(height: 15),
                               Container(
                                 decoration: BoxDecoration(
                                   boxShadow: [
@@ -161,7 +165,7 @@ class _DriversPageState extends State<DriversPage> {
       case 14:
         return teamDetails[3]['color'];
 
-      case 8:
+      case 18:
         return teamDetails[4]['color'];
 
       case 2:

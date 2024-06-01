@@ -51,51 +51,33 @@ class FirestoreService {
       throw Exception('Error fetching drivers data: $e');
     }
   }
-
-  Future<Map<String, dynamic>> fetchTeamRanking(String season) async {
-    try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection('TeamsRanking').doc(season).get();
-
-      if (snapshot.exists) {
-        return snapshot.data()!;
-      } else {
-        return {};
-      }
-    } catch (e) {
-      throw Exception(
-          'Error fetching team ranking data for season $season: $e');
-    }
-  }
-
-  Future<Map<String, dynamic>> fetchDriverRanking(String season) async {
-    try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection('DriversRanking').doc(season).get();
-
-      if (snapshot.exists) {
-        return snapshot.data()!;
-      } else {
-        return {};
-      }
-    } catch (e) {
-      throw Exception(
-          'Error fetching driver ranking data for season $season: $e');
-    }
-  }
 }
 
-  // Future<Map<String, dynamic>> fetchDriver(String driverName) async {
+  // Future<List<Map<String, dynamic>>> fetchAllTeamRankings() async {
   //   try {
-  //     DocumentSnapshot<Map<String, dynamic>> snapshot =
-  //         await _firestore.collection('F1Drivers').doc(driverName).get();
+  //     QuerySnapshot<Map<String, dynamic>> snapshot =
+  //         await _firestore.collection('TeamsRanking').get();
 
-  //     if (snapshot.exists) {
-  //       return snapshot.data()!;
+  //     if (snapshot.docs.isNotEmpty) {
+  //       return snapshot.docs.map((doc) => doc.data()).toList();
   //     } else {
-  //       return {};
+  //       return [];
   //     }
   //   } catch (e) {
-  //     throw Exception('Error fetching driver data: $e');
+  //     throw Exception('Error fetching teams rankings data: $e');
+  //   }
+  // }
+  // Future<List<Map<String, dynamic>>> fetchAllDriverRankings() async {
+  //   try {
+  //     QuerySnapshot<Map<String, dynamic>> snapshot =
+  //         await _firestore.collection('DriversRanking').get();
+
+  //     if (snapshot.docs.isNotEmpty) {
+  //       return snapshot.docs.map((doc) => doc.data()).toList();
+  //     } else {
+  //       return [];
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Error fetching drivers rankings data: $e');
   //   }
   // }
