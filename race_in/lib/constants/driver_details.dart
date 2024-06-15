@@ -5,7 +5,7 @@ List driverDetails = [
         'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/A/ALEALB01_Alexander_Albon/alealb01.png',
   },
   {
-    'name': 'Carlos Sainz Jr',
+    'name': 'Carlos Sainz',
     'url':
         'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/C/CARSAI01_Carlos_Sainz/carsai01.png',
   },

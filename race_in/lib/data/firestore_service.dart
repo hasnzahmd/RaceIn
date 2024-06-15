@@ -51,33 +51,38 @@ class FirestoreService {
       throw Exception('Error fetching drivers data: $e');
     }
   }
+
+  Future<List<Map<String, dynamic>>> fetchTeamsRankings(String season) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('TeamsRanking').doc(season).get();
+
+      if (snapshot.exists) {
+        List<dynamic> data = snapshot.data()!['data'];
+        return List<Map<String, dynamic>>.from(data);
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw Exception(
+          'Error fetching teams rankings data for season $season: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchDriversRankings(String season) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('DriversRanking').doc(season).get();
+
+      if (snapshot.exists) {
+        List<dynamic> data = snapshot.data()!['data'];
+        return List<Map<String, dynamic>>.from(data);
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw Exception(
+          'Error fetching drivers rankings data for season $season: $e');
+    }
+  }
 }
-
-  // Future<List<Map<String, dynamic>>> fetchAllTeamRankings() async {
-  //   try {
-  //     QuerySnapshot<Map<String, dynamic>> snapshot =
-  //         await _firestore.collection('TeamsRanking').get();
-
-  //     if (snapshot.docs.isNotEmpty) {
-  //       return snapshot.docs.map((doc) => doc.data()).toList();
-  //     } else {
-  //       return [];
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Error fetching teams rankings data: $e');
-  //   }
-  // }
-  // Future<List<Map<String, dynamic>>> fetchAllDriverRankings() async {
-  //   try {
-  //     QuerySnapshot<Map<String, dynamic>> snapshot =
-  //         await _firestore.collection('DriversRanking').get();
-
-  //     if (snapshot.docs.isNotEmpty) {
-  //       return snapshot.docs.map((doc) => doc.data()).toList();
-  //     } else {
-  //       return [];
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Error fetching drivers rankings data: $e');
-  //   }
-  // }

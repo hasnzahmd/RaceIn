@@ -1,14 +1,38 @@
-import 'package:flutter/material.dart';
+import '../constants/team_details.dart';
 
-class TeamColors {
-  static const Color alpine = Color(0xFF0093CC);
-  static const Color aston = Color(0xFF229971);
-  static const Color ferrari = Color(0xFFE80020);
-  static const Color haas = Color(0xFFB6BABD);
-  static const Color kick = Color(0xFF52E252);
-  static const Color mclaren = Color(0xFFFF8000);
-  static const Color mercedes = Color(0xFF27F4D2);
-  static const Color rb = Color(0xFF6692FF);
-  static const Color redbull = Color(0xFF3671C6);
-  static const Color williams = Color(0xFF64C4FF);
+getTeamColor(teamId) {
+  switch (teamId) {
+    case 13:
+      return teamDetails[0]['color'];
+
+    case 17:
+      return teamDetails[1]['color'];
+
+    case 3:
+      return teamDetails[2]['color'];
+
+    case 14:
+      return teamDetails[3]['color'];
+
+    case 18:
+      return teamDetails[4]['color'];
+
+    case 2:
+      return teamDetails[5]['color'];
+
+    case 5:
+      return teamDetails[6]['color'];
+
+    case 1:
+      return teamDetails[7]['color'];
+
+    case 7:
+      return teamDetails[8]['color'];
+
+    case 12:
+      return teamDetails[9]['color'];
+
+    default:
+      return '0xFF000000';
+  }
 }

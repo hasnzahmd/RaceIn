@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:race_in/constants/colors.dart';
+import 'package:race_in/constants/custom_colors.dart';
 import 'package:race_in/pages/latest.dart';
 import 'teams.dart';
 import 'races.dart';
 import 'drivers.dart';
-import 'standings.dart';
+import 'rankings.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
     Races(),
     Teams(),
     DriversPage(),
-    Standings(),
+    RankingsPage(),
   ];
 
   @override

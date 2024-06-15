@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/teams_colors.dart';
 import '../constants/team_details.dart';
 import '../components/custom_app_bar.dart';
 import '../constants/clean_team_name.dart';
@@ -36,48 +37,46 @@ class _TeamsState extends State<Teams> {
 
           var teams = snapshot.data!;
 
-          teams.sort((a, b) {
-            final nameA = cleanTeamName(a['name']);
-            final nameB = cleanTeamName(b['name']);
-            return nameA.compareTo(nameB);
-          });
-
           return ListView.builder(
             itemCount: teams.length,
             itemBuilder: (context, index) {
               final team = teams[index];
-              final teamColor = Color(int.parse(teamDetails[index]['color']));
+              final teamName = cleanTeamName(team['name']);
+              int teamId = team['id'];
+              if (teamId == 8) teamId = 18;
+              final teamColor = getTeamColor(teamId);
+              final teamEngine =
+                  '${team['engine']}${teamDetails[index]['engine']}';
               return Card(
                 margin:
-                    const EdgeInsets.only(bottom: 1, top: 5, left: 5, right: 5),
+                    const EdgeInsets.only(bottom: 1, top: 5, left: 3, right: 3),
                 elevation: 5,
                 child: Container(
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
                     border: Border.all(
-                      color: teamColor,
+                      color: Color(int.parse(teamColor)),
                       width: 1,
                     ),
                   ),
                   child: ListTile(
-                    contentPadding: const EdgeInsets.only(left: 10, right: 10),
+                    contentPadding: const EdgeInsets.only(left: 7, right: 5),
                     textColor: const Color(0xBE000000),
                     minLeadingWidth: 4,
                     title: Text(
-                      '${team['engine']}${teamDetails[index]['engine']}',
+                      teamEngine,
                       style: const TextStyle(
                           fontWeight: FontWeight.w600, fontSize: 14),
                     ),
                     subtitle: Text(
-                      cleanTeamName(team['name']) == 'Mercedes-AMG'
-                          ? 'Mercedes'
-                          : cleanTeamName(team['name']),
+                      teamName,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     leading: VerticalDivider(
-                      color: teamColor,
+                      color: Color(int.parse(teamColor)),
                       thickness: 5,
-                      width: 5,
+                      width: 0,
                     ),
                     trailing: Image.network(
                       team['logo'],

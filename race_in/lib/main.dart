@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:race_in/constants/colors.dart';
-import 'splash.dart';
+import 'package:race_in/constants/custom_colors.dart';
+import 'components/splash.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {

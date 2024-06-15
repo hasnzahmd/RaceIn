@@ -75,6 +75,30 @@ class DataService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getTeamsRankings(String season) async {
+    final cacheKey = 'teamsRankingData_$season';
+
+    if (_isCacheValid(cacheKey, cacheDuration)) {
+      return Future.value(_getCacheData(cacheKey));
+    } else {
+      final data = await _firestoreService.fetchTeamsRankings(season);
+      _setCacheData(cacheKey, data);
+      return data;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getDriversRankings(String season) async {
+    final cacheKey = 'driversRankingData_$season';
+
+    if (_isCacheValid(cacheKey, cacheDuration)) {
+      return Future.value(_getCacheData(cacheKey));
+    } else {
+      final data = await _firestoreService.fetchDriversRankings(season);
+      _setCacheData(cacheKey, data);
+      return data;
+    }
+  }
+
   bool _isCacheValid(String key, Duration duration) {
     final cache = cacheBox.get(key);
     if (cache == null) return false;

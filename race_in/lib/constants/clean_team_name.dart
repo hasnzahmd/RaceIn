@@ -17,5 +17,11 @@ String cleanTeamName(String name) {
   final filteredWords =
       nameWords.where((word) => !wordsToRemove.contains(word)).toList();
 
-  return filteredWords.join(' ');
+  var finalName = filteredWords.join(' ');
+  if (finalName == 'Mercedes-AMG') {
+    finalName = 'Mercedes';
+  } else if (finalName == 'Ferrari\n') {
+    finalName = 'Ferrari';
+  }
+  return finalName;
 }
