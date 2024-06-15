@@ -7,6 +7,25 @@ class DataService {
   final Box cacheBox = Hive.box('cacheBox');
 
   final Duration cacheDuration = Duration(hours: 24);
+  final int currentYear = DateTime.now().year;
+
+  DataService() {
+    _startPeriodicCacheRefresh();
+  }
+
+  Future<void> initializeData() async {
+    await Future.wait([
+      getTeams(),
+      getRaces(),
+      getCircuits(),
+      getCompetitions(),
+      getAllDrivers(),
+      for (int year = 2017; year <= currentYear; year++)
+        getTeamsRankings(year.toString()),
+      for (int year = 2017; year <= currentYear; year++)
+        getDriversRankings(year.toString()),
+    ]);
+  }
 
   Future<List<Map<String, dynamic>>> getTeams() async {
     const cacheKey = 'teamsData';
@@ -119,5 +138,24 @@ class DataService {
   void _setCacheData(String key, dynamic data) {
     final cacheTime = DateTime.now().toIso8601String();
     cacheBox.put(key, {'cacheTime': cacheTime, 'data': data});
+  }
+
+  void _startPeriodicCacheRefresh() {
+    Future.delayed(Duration(minutes: 15), () async {
+      await _refreshCacheIfNeeded();
+      _startPeriodicCacheRefresh();
+    });
+  }
+
+  Future<void> _refreshCacheIfNeeded() async {
+    await getTeams();
+    await getRaces();
+    await getCircuits();
+    await getCompetitions();
+    await getAllDrivers();
+    for (int year = 2017; year <= currentYear; year++) {
+      await getTeamsRankings(year.toString());
+      await getDriversRankings(year.toString());
+    }
   }
 }

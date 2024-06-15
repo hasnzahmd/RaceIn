@@ -3,6 +3,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:race_in/constants/custom_colors.dart';
 import 'package:race_in/pages/latest.dart';
+import 'package:provider/provider.dart';
+import '../data/data_notifier.dart';
 import 'teams.dart';
 import 'races.dart';
 import 'drivers.dart';
@@ -30,7 +32,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: pages[_selectedIndex],
+      body: Consumer<DataNotifier>(
+        builder: (context, dataNotifier, child) {
+          if (dataNotifier.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return pages[_selectedIndex];
+          }
+        },
+      ),
       bottomNavigationBar: CurvedNavigationBar(
         index: _selectedIndex,
         items: const <Widget>[

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:race_in/constants/clean_team_name.dart';
-import 'package:race_in/constants/custom_colors.dart';
+//import 'package:race_in/constants/custom_colors.dart';
 import 'package:race_in/constants/teams_colors.dart';
-import 'package:country_flags/country_flags.dart';
+//import 'package:country_flags/country_flags.dart';
 
 class DriversRankingPage extends StatelessWidget {
   final List<Map<String, dynamic>> drivers;
@@ -46,11 +46,6 @@ class DriversRankingPage extends StatelessWidget {
                     ),
                     subtitle: Row(
                       children: [
-// CountryFlag.fromCountryCode(
-//                           driver['country']['code'],
-//                           height: 40,
-//                           width: 40,
-//                         ),
                         Text(
                           teamName,
                           style: TextStyle(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:race_in/constants/teams_colors.dart';
+//import 'package:race_in/constants/teams_colors.dart';
 
 class TeamsRankingPage extends StatelessWidget {
   final List<Map<String, dynamic>> teams;
