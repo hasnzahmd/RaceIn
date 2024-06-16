@@ -6,12 +6,12 @@ class DataService {
   final FirestoreService _firestoreService = FirestoreService();
   final Box cacheBox = Hive.box('cacheBox');
 
-  final Duration cacheDuration = Duration(hours: 24);
+  final Duration cacheDuration = Duration(hours: 12);
   final int currentYear = DateTime.now().year;
 
-  DataService() {
-    _startPeriodicCacheRefresh();
-  }
+  //DataService() {
+  // _startPeriodicCacheRefresh();
+  //}
 
   Future<void> initializeData() async {
     await Future.wait([
@@ -96,8 +96,9 @@ class DataService {
 
   Future<List<Map<String, dynamic>>> getTeamsRankings(String season) async {
     final cacheKey = 'teamsRankingData_$season';
-
-    if (_isCacheValid(cacheKey, cacheDuration)) {
+    final cacheValidDuration =
+        season == currentYear.toString() ? cacheDuration : Duration(days: 3650);
+    if (_isCacheValid(cacheKey, cacheValidDuration)) {
       return Future.value(_getCacheData(cacheKey));
     } else {
       final data = await _firestoreService.fetchTeamsRankings(season);
@@ -108,8 +109,10 @@ class DataService {
 
   Future<List<Map<String, dynamic>>> getDriversRankings(String season) async {
     final cacheKey = 'driversRankingData_$season';
+    final cacheValidDuration =
+        season == currentYear.toString() ? cacheDuration : Duration(days: 3650);
 
-    if (_isCacheValid(cacheKey, cacheDuration)) {
+    if (_isCacheValid(cacheKey, cacheValidDuration)) {
       return Future.value(_getCacheData(cacheKey));
     } else {
       final data = await _firestoreService.fetchDriversRankings(season);
@@ -140,22 +143,20 @@ class DataService {
     cacheBox.put(key, {'cacheTime': cacheTime, 'data': data});
   }
 
-  void _startPeriodicCacheRefresh() {
-    Future.delayed(Duration(minutes: 15), () async {
-      await _refreshCacheIfNeeded();
-      _startPeriodicCacheRefresh();
-    });
-  }
+  // void _startPeriodicCacheRefresh() {
+  //   Future.delayed(Duration(minutes: 15), () async {
+  //     await _refreshCacheIfNeeded();
+  //     _startPeriodicCacheRefresh();
+  //   });
+  // }
 
-  Future<void> _refreshCacheIfNeeded() async {
-    await getTeams();
-    await getRaces();
-    await getCircuits();
-    await getCompetitions();
-    await getAllDrivers();
-    for (int year = 2017; year <= currentYear; year++) {
-      await getTeamsRankings(year.toString());
-      await getDriversRankings(year.toString());
-    }
-  }
+  // Future<void> _refreshCacheIfNeeded() async {
+  //   await getTeams();
+  //   await getRaces();
+  //   await getCircuits();
+  //   await getCompetitions();
+  //   await getAllDrivers();
+  //   await getTeamsRankings(currentYear.toString());
+  //   await getDriversRankings(currentYear.toString());
+  // }
 }

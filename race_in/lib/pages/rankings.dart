@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:race_in/constants/custom_colors.dart';
 import './screens/teams_rankings.dart';
 import './screens/drivers_rankings.dart';
-import '../data/data_service.dart';
+import '../data/data_notifier.dart';
 
 class RankingsPage extends StatefulWidget {
   @override
@@ -11,44 +12,40 @@ class RankingsPage extends StatefulWidget {
 
 class _RankingsPageState extends State<RankingsPage>
     with SingleTickerProviderStateMixin {
-  final DataService _dataService = DataService();
-  TabController? _tabController;
-  String selectedSeason = '2024';
-  List<String> seasons = List.generate(8, (index) => (2024 - index).toString());
-  List<Map<String, dynamic>> teamsRankings = [];
-  List<Map<String, dynamic>> driversRankings = [];
+  late TabController _tabController;
+  late int currentYear;
+  late String selectedSeason;
+  late List<String> seasons;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _fetchRankings();
-  }
+    currentYear = DateTime.now().year;
+    selectedSeason = currentYear.toString();
+    seasons = List.generate(
+        currentYear - 2016, (index) => (currentYear - index).toString());
 
-  Future<void> _fetchRankings() async {
-    final teamsData = await _dataService.getTeamsRankings(selectedSeason);
-    final driversData = await _dataService.getDriversRankings(selectedSeason);
-    setState(() {
-      teamsRankings = teamsData;
-      driversRankings = driversData;
-    });
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController!.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final dataNotifier = Provider.of<DataNotifier>(context);
+    final teamsRankings = dataNotifier.getData('teamsRanking_$selectedSeason');
+    final driversRankings =
+        dataNotifier.getData('driversRanking_$selectedSeason');
+
     return Scaffold(
       appBar: AppBar(
-        leading: Container(
+        leading: Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Image.asset(
-            'assets/images/f1w.png',
-          ),
+          child: Image.asset('assets/images/f1w.png'),
         ),
         title: const Text('Rankings'),
         actions: [
@@ -59,18 +56,20 @@ class _RankingsPageState extends State<RankingsPage>
               onChanged: (value) {
                 setState(() {
                   selectedSeason = value!;
-                  _fetchRankings();
                 });
               },
               items: seasons.map<DropdownMenuItem<String>>((String season) {
                 return DropdownMenuItem<String>(
                   value: season,
-                  child: Text(season,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w700)),
+                  child: Text(
+                    season,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 );
               }).toList(),
             ),
@@ -78,7 +77,9 @@ class _RankingsPageState extends State<RankingsPage>
           const SizedBox(width: 8),
           IconButton(
             icon: const Icon(Icons.settings, size: 25, color: Colors.white),
-            onPressed: () {},
+            onPressed: () {
+              // Add functionality for settings button
+            },
           ),
         ],
       ),

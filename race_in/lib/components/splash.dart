@@ -21,13 +21,10 @@ class _SplashState extends State<Splash> {
   Future<void> _initializeApp() async {
     final dataNotifier = Provider.of<DataNotifier>(context, listen: false);
 
-    dataNotifier.initializeData();
-    await Future.delayed(const Duration(seconds: 4));
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const Home()),
-    );
+    final dataInitialization =
+        dataNotifier.initializeData(context); // Pass context here
+    final timeout = Future.delayed(const Duration(seconds: 5));
+    await Future.any([dataInitialization, timeout]);
 
     Navigator.pushReplacement(
       context,

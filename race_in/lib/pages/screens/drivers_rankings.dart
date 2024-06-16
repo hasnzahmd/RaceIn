@@ -22,7 +22,7 @@ class DriversRankingPage extends StatelessWidget {
                   driver['team']['id'] == 8 ? 18 : driver['team']['id'];
               final teamColor = getTeamColor(teamId);
               final teamName = cleanTeamName(driver['team']['name']);
-              int points = driver['points'] ?? 0;
+              final points = driver['points'] ?? 0;
               return Card(
                 margin:
                     const EdgeInsets.only(bottom: 4, top: 2, left: 3, right: 3),

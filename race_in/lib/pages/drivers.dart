@@ -1,42 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:country_flags/country_flags.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
 import '../components/custom_app_bar.dart';
 import '../components/glowing_dot.dart';
-import '../data/data_service.dart';
+import '../data/data_notifier.dart';
 import '../constants/driver_details.dart';
 import '../constants/team_details.dart';
 import '../constants/teams_colors.dart';
 
-class DriversPage extends StatefulWidget {
-  @override
-  _DriversPageState createState() => _DriversPageState();
-}
-
-class _DriversPageState extends State<DriversPage> {
-  final DataService _dataService = DataService();
-  Future<List<Map<String, dynamic>>>? _driversFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _driversFuture = _dataService.getAllDrivers();
-  }
-
+class DriversPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Drivers'),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _driversFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+      body: Consumer<DataNotifier>(
+        builder: (context, dataNotifier, child) {
+          if (dataNotifier.isLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No drivers found'));
           } else {
-            final drivers = snapshot.data!;
+            final drivers = dataNotifier.getData('drivers');
+            if (drivers.isEmpty) {
+              return const Center(child: Text('No drivers found'));
+            }
+
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
@@ -57,6 +44,7 @@ class _DriversPageState extends State<DriversPage> {
                 for (var team in teamDetails) {
                   if (team['id'] == teamId) {
                     teamName = team['name'];
+                    break;
                   }
                 }
 
@@ -64,6 +52,7 @@ class _DriversPageState extends State<DriversPage> {
                 for (var driverDetail in driverDetails) {
                   if (driverDetail['name'] == driverName) {
                     imageUrl = driverDetail['url'];
+                    break;
                   }
                 }
 
@@ -134,11 +123,11 @@ class _DriversPageState extends State<DriversPage> {
                             ],
                           ),
                         ),
-                        Image.network(
-                          imageUrl,
+                        CachedNetworkImage(
+                          imageUrl: imageUrl,
                           height: 150,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
+                          errorWidget: (context, url, error) {
                             return const Icon(Icons.person_rounded, size: 50);
                           },
                         ),

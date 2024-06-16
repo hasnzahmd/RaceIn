@@ -53,36 +53,10 @@ class FirestoreService {
   }
 
   Future<List<Map<String, dynamic>>> fetchTeamsRankings(String season) async {
-    try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection('TeamsRanking').doc(season).get();
-
-      if (snapshot.exists) {
-        List<dynamic> data = snapshot.data()!['data'];
-        return List<Map<String, dynamic>>.from(data);
-      } else {
-        return [];
-      }
-    } catch (e) {
-      throw Exception(
-          'Error fetching teams rankings data for season $season: $e');
-    }
+    return _fetchCollectionData('TeamsRanking', season);
   }
 
   Future<List<Map<String, dynamic>>> fetchDriversRankings(String season) async {
-    try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection('DriversRanking').doc(season).get();
-
-      if (snapshot.exists) {
-        List<dynamic> data = snapshot.data()!['data'];
-        return List<Map<String, dynamic>>.from(data);
-      } else {
-        return [];
-      }
-    } catch (e) {
-      throw Exception(
-          'Error fetching drivers rankings data for season $season: $e');
-    }
+    return _fetchCollectionData('DriversRanking', season);
   }
 }
