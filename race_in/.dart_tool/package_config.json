@@ -92,6 +92,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "country_icons",
+      "rootUri": "file:///C:/Users/hhalv/AppData/Local/Pub/Cache/hosted/pub.dev/country_icons-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "crypto",
       "rootUri": "file:///C:/Users/hhalv/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.3",
       "packageUri": "lib/",
@@ -572,7 +578,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-06-16T13:34:39.468567Z",
+  "generated": "2024-06-17T13:54:47.522625Z",
   "generator": "pub",
   "generatorVersion": "3.5.0-176.0.dev",
   "flutterRoot": "file:///C:/SDK/flutter",

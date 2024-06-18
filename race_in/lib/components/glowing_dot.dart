@@ -23,7 +23,7 @@ class _GlowingDotState extends State<GlowingDot>
       vsync: this,
     )..repeat(reverse: true);
 
-    _animation = Tween<double>(begin: 0.7, end: 1).animate(
+    _animation = Tween<double>(begin: 0.7, end: 0.9).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,

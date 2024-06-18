@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:country_flags/country_flags.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import '../components/custom_app_bar.dart';
@@ -28,7 +27,7 @@ class DriversPage extends StatelessWidget {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
                 mainAxisExtent: 160,
-                mainAxisSpacing: 5.0,
+                mainAxisSpacing: 3.0,
               ),
               itemCount: drivers.length,
               itemBuilder: (context, index) {
@@ -58,18 +57,20 @@ class DriversPage extends StatelessWidget {
 
                 var teamColor = getTeamColor(teamId);
 
+                var driverNumber = driver['number'] ?? '38';
+
                 return Card(
                   margin: const EdgeInsets.only(
                     top: 2,
-                    left: 5,
-                    right: 5,
+                    left: 3,
+                    right: 3,
                   ),
                   elevation: 5,
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: Color(int.parse(teamColor)),
-                          width: 2,
+                          width: 1.5,
                         ),
                         borderRadius: BorderRadius.circular(5)),
                     child: Row(
@@ -103,22 +104,45 @@ class DriversPage extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 15),
-                              Container(
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.3),
-                                      spreadRadius: 1,
-                                      blurRadius: 5,
-                                      offset: const Offset(0, 0.5),
+                              Row(
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl:
+                                        'https://flagsapi.com/${driver['country']['code']}/shiny/64.png',
+                                    height: 50,
+                                    width: 50,
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                  const SizedBox(width: 80),
+                                  Container(
+                                    alignment: Alignment.centerRight,
+                                    width: 100,
+                                    child: ShaderMask(
+                                      blendMode: BlendMode.srcIn,
+                                      shaderCallback: (bounds) =>
+                                          LinearGradient(
+                                        colors: [
+                                          Color(int.parse(teamColor))
+                                              .withOpacity(0.9),
+                                          Color(int.parse(teamColor))
+                                              .withOpacity(0.2),
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ).createShader(Rect.fromLTWH(0, 0,
+                                              bounds.width, bounds.height)),
+                                      child: Text(
+                                        '$driverNumber',
+                                        style: TextStyle(
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                child: CountryFlag.fromCountryCode(
-                                  driver['country']['code'],
-                                  height: 40,
-                                  width: 40,
-                                ),
+                                  ),
+                                ],
                               )
                             ],
                           ),

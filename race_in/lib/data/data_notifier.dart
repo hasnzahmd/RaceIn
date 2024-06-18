@@ -10,16 +10,14 @@ class DataNotifier extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  DataNotifier() {
-    // Don't initialize data here to avoid context issues
-  }
+  DataNotifier() {}
 
   Future<void> initializeData(BuildContext context) async {
     await _dataService.initializeData();
     await _updateDataCache();
     _isLoading = false;
     notifyListeners();
-    await _precacheImages(context); // Pass context here
+    await _precacheImages(context);
   }
 
   Future<void> _updateDataCache() async {
@@ -37,7 +35,6 @@ class DataNotifier extends ChangeNotifier {
   }
 
   Future<void> _precacheImages(BuildContext context) async {
-    // Assuming your data has a 'imageUrl' field
     for (var team in _dataCache['teams'] ?? []) {
       String imageUrl = team['logo'];
       await precacheImage(CachedNetworkImageProvider(imageUrl), context);
@@ -46,6 +43,15 @@ class DataNotifier extends ChangeNotifier {
     for (var driver in driverDetails) {
       String imageUrl = driver['url'];
       await precacheImage(CachedNetworkImageProvider(imageUrl), context);
+    }
+
+    for (var driver in _dataCache['drivers'] ?? []) {
+      var countryCode = driver['data'][0]['country']['code'];
+      await precacheImage(
+          CachedNetworkImageProvider(
+            'https://flagsapi.com/$countryCode/shiny/64.png',
+          ),
+          context);
     }
   }
 

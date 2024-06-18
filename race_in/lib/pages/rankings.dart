@@ -77,9 +77,7 @@ class _RankingsPageState extends State<RankingsPage>
           const SizedBox(width: 8),
           IconButton(
             icon: const Icon(Icons.settings, size: 25, color: Colors.white),
-            onPressed: () {
-              // Add functionality for settings button
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -103,8 +101,12 @@ class _RankingsPageState extends State<RankingsPage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                DriversRankingPage(drivers: driversRankings),
-                TeamsRankingPage(teams: teamsRankings),
+                DriversRankingPage(
+                  drivers: driversRankings,
+                  dataNotifier: dataNotifier,
+                ),
+                TeamsRankingPage(
+                    teams: teamsRankings, dataNotifier: dataNotifier),
               ],
             ),
           ),
