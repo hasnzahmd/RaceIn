@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../constants/custom_colors.dart';
 import '../../constants/f1_countries.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../../components/coming_race_card.dart';
 
 class RacesList extends StatelessWidget {
   final List races;
@@ -49,84 +50,96 @@ class RacesList extends StatelessWidget {
             round = startIndex + index;
           }
 
-          return Card(
-            margin: const EdgeInsets.only(bottom: 2, top: 2, left: 3, right: 3),
-            elevation: 5,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 60,
-                    child: Column(
+          final bool comingRace =
+              (index == 0) && (race['status'] == 'Scheduled');
+
+          return comingRace
+              ? ComingRaceCard(race: race, round: round)
+              : Card(
+                  margin: const EdgeInsets.only(
+                      bottom: 2, top: 2, left: 3, right: 3),
+                  elevation: 5,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: CustomColors.f1red.withOpacity(0.2),
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          day,
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500),
+                        SizedBox(
+                          width: 60,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                day,
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                height: 1,
+                              ),
+                              Text(
+                                date,
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                height: 1,
+                              ),
+                              Text(
+                                time,
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(
-                          height: 1,
+                          width: 15,
                         ),
-                        Text(
-                          date,
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(
-                          height: 1,
-                        ),
-                        Text(
-                          time,
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Round $round',
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: CustomColors.f1red),
+                                  ),
+                                  Text(
+                                    competition,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              CachedNetworkImage(
+                                imageUrl:
+                                    'https://flagsapi.com/$countryCode/shiny/64.png',
+                                height: 40,
+                                width: 40,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Round $round',
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.f1red),
-                            ),
-                            Text(
-                              competition,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        CachedNetworkImage(
-                          imageUrl:
-                              'https://flagsapi.com/$countryCode/shiny/64.png',
-                          height: 40,
-                          width: 40,
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+                );
         });
   }
 }
