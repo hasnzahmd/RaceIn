@@ -74,9 +74,8 @@ class _RankingsPageState extends State<RankingsPage>
               }).toList(),
             ),
           ),
-
           IconButton(
-            icon: const Icon(Icons.settings, size: 25, color: Colors.white),
+            icon: const Icon(Icons.menu_rounded, size: 30, color: Colors.white),
             onPressed: () {},
           ),
         ],

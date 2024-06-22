@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import '../constants/teams_colors.dart';
 import '../constants/team_details.dart';
 import '../components/custom_app_bar.dart';
-import '../constants/clean_team_name.dart';
 import '../data/data_notifier.dart';
+import '../constants/clean_team_name.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class Teams extends StatelessWidget {
@@ -49,7 +49,7 @@ class Teams extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(
-                        color: Color(int.parse(teamColor)),
+                        color: Color(int.parse(teamColor)).withOpacity(0.6),
                         width: 1,
                       ),
                     ),
