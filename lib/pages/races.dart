@@ -19,7 +19,7 @@ class Races extends StatelessWidget {
             const TabBar(
               indicatorColor: CustomColors.f1red,
               labelColor: CustomColors.f1red,
-              labelStyle: const TextStyle(
+              labelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

@@ -43,6 +43,10 @@ class RacesList extends StatelessWidget {
             }
           }
 
+          raceCountry == 'United Arab Emirates'
+              ? raceCountry = 'UAE'
+              : raceCountry;
+
           var round = 0;
           if (race['status'] == 'Completed') {
             round = startIndex - index;

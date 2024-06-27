@@ -54,6 +54,7 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     String raceCountry = widget.race['competition']['location']['country'];
     String competition = widget.race['competition']['name'];
     String countryCode = '';
@@ -63,6 +64,7 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
         break;
       }
     }
+    raceCountry == 'United Arab Emirates' ? raceCountry = 'UAE' : raceCountry;
 
     List<String> countdown = _formatDuration(_remainingTime);
 
@@ -75,7 +77,7 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
       child: Stack(
         children: [
           Container(
-            height: 180,
+            height: screenHeight * 0.208,
             decoration: BoxDecoration(
               image: const DecorationImage(
                 image: AssetImage('assets/images/race.webp'),
@@ -85,8 +87,8 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            height: 180,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            height: screenHeight * 0.208,
             decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.1),
                 border: Border.all(
@@ -99,7 +101,7 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
               children: [
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(5.0),
@@ -107,18 +109,28 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Round ${widget.round}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.f1red,
-                        ),
+                      Column(
+                        children: [
+                          Text(
+                            'Round ${widget.round}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: CustomColors.f1red,
+                            ),
+                          ),
+                          Text(
+                            raceCountry,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       ),
                       Flexible(
                         child: Text(
                           competition,
-                          // textAlign: TextAlign.center,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
