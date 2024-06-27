@@ -9,14 +9,11 @@ class DataService {
   final Duration cacheDuration = Duration(hours: 12);
   final int currentYear = DateTime.now().year;
 
-  //DataService() {
-  // _startPeriodicCacheRefresh();
-  //}
-
   Future<void> initializeData() async {
     await Future.wait([
       getTeams(),
       getRaces(),
+      getRaces2(),
       getCircuits(),
       getCompetitions(),
       getAllDrivers(),
@@ -53,6 +50,18 @@ class DataService {
       return Future.value(_getCacheData(cacheKey));
     } else {
       final data = await _firestoreService.fetchRaces();
+      _setCacheData(cacheKey, data);
+      return data;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getRaces2() async {
+    const cacheKey = 'races2Data';
+
+    if (_isCacheValid(cacheKey, cacheDuration)) {
+      return Future.value(_getCacheData(cacheKey));
+    } else {
+      final data = await _firestoreService.fetchRaces2();
       _setCacheData(cacheKey, data);
       return data;
     }
@@ -138,10 +147,11 @@ class DataService {
     );
   }
 
-  void _setCacheData(String key, dynamic data) {
+  void _setCacheData(String key, List<Map<String, dynamic>> data) {
     final cacheTime = DateTime.now().toIso8601String();
     cacheBox.put(key, {'cacheTime': cacheTime, 'data': data});
   }
+}
 
   // void _startPeriodicCacheRefresh() {
   //   Future.delayed(Duration(minutes: 15), () async {
@@ -159,4 +169,3 @@ class DataService {
   //   await getTeamsRankings(currentYear.toString());
   //   await getDriversRankings(currentYear.toString());
   // }
-}

@@ -25,6 +25,7 @@ class DataNotifier extends ChangeNotifier {
     final List<Future<void>> futures = [
       _fetchAndCacheData('teams', _dataService.getTeams),
       _fetchAndCacheData('races', _dataService.getRaces),
+      _fetchAndCacheData('races2', _dataService.getRaces2),
       _fetchAndCacheData('circuits', _dataService.getCircuits),
       _fetchAndCacheData('competitions', _dataService.getCompetitions),
       _fetchAndCacheData('drivers', _dataService.getAllDrivers),

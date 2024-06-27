@@ -29,6 +29,33 @@ class FirestoreService {
     return _fetchCollectionData('F1Data', 'races');
   }
 
+  Future<List<Map<String, dynamic>>> fetchRaces2() async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('F1Data').doc('races2').get();
+
+      if (snapshot.exists) {
+        Map<String, dynamic> data = snapshot.data()!['data'];
+
+        // Sorting the data by keys
+        List<Map<String, dynamic>> dataList = data.entries.map((entry) {
+          return {
+            'id': entry.key,
+            'value': entry.value[0],
+          };
+        }).toList();
+
+        dataList.sort((a, b) => a['id'].compareTo(b['id']));
+
+        return dataList;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw Exception('Error fetching data from races2 collection: $e');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> fetchCircuits() async {
     return _fetchCollectionData('F1Data', 'circuits');
   }

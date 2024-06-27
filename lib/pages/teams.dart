@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../data/data_notifier.dart';
 import '../constants/teams_colors.dart';
 import '../constants/team_details.dart';
 import '../components/custom_app_bar.dart';
-import '../data/data_notifier.dart';
 import '../constants/clean_team_name.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
