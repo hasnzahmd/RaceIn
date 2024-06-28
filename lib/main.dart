@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
               fontSize: 25,
               fontFamily: 'Titillium',
               fontWeight: FontWeight.w600,
-              fontStyle: FontStyle.italic,
             ),
             centerTitle: true,
           ),

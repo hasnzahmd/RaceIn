@@ -35,14 +35,8 @@ class Races extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 } else {
                   final races = dataNotifier.getData('races');
-                  final races2 = dataNotifier.getData('races2');
                   if (races.isEmpty) {
                     return const Center(child: Text('No races found.'));
-                  }
-
-                  for (var i = 0; i < races.length; i++) {
-                    races[i]['competition']['name'] =
-                        races2[i]['value']['gPrx'];
                   }
 
                   final upcomingRaces = races

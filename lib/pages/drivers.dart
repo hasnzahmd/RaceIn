@@ -133,7 +133,7 @@ class DriversPage extends StatelessWidget {
                                               bounds.width, bounds.height)),
                                       child: Text(
                                         '$driverNumber',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 40,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,

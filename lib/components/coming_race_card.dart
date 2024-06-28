@@ -19,6 +19,7 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
   late DateTime raceDateTime;
   late Timer _timer;
   Duration _remainingTime = const Duration();
+
   @override
   void initState() {
     super.initState();
@@ -55,21 +56,14 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    String raceCountry = widget.race['competition']['location']['country'];
-    String competition = widget.race['competition']['name'];
-    String countryCode = '';
-    for (var country in f1Countries) {
-      if (country['name'] == raceCountry) {
-        countryCode = country['code'];
-        break;
-      }
-    }
-    raceCountry == 'United Arab Emirates' ? raceCountry = 'UAE' : raceCountry;
 
-    List<String> countdown = _formatDuration(_remainingTime);
+    final raceCountry = widget.race['competition']['location']['country'];
+    final competition = widget.race['competition']['name'];
+    final countryCode = _getCountryCode(raceCountry);
+    raceCountry == 'United Arab Emirates' ? 'UAE' : raceCountry;
 
-    DateFormat dateFormat = DateFormat('EEE, MMM d, h:mm a');
-    String formattedDate = dateFormat.format(raceDateTime);
+    final countdown = _formatDuration(_remainingTime);
+    final formattedDate = DateFormat('EEE, MMM d, h:mm a').format(raceDateTime);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 10, top: 3, left: 3, right: 3),
@@ -162,89 +156,20 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            children: [
-                              const Text(
-                                'DAYS',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              Text(
-                                countdown[0],
-                                style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              const Text(
-                                'HRS',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              Text(
-                                countdown[1],
-                                style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              const Text(
-                                'MINS',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              Text(
-                                countdown[2],
-                                style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              const Text(
-                                'SECS',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              Text(
-                                countdown[3],
-                                style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
+                          _CountdownColumn(label: 'DAYS', value: countdown[0]),
+                          _CountdownColumn(label: 'HRS', value: countdown[1]),
+                          _CountdownColumn(label: 'MINS', value: countdown[2]),
+                          _CountdownColumn(label: 'SECS', value: countdown[3]),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       Text(
                         formattedDate,
                         style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),
@@ -254,6 +179,46 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
           ),
         ],
       ),
+    );
+  }
+
+  String _getCountryCode(String country) {
+    for (var item in f1Countries) {
+      if (item['name'] == country) {
+        return item['code'];
+      }
+    }
+    return '';
+  }
+}
+
+class _CountdownColumn extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _CountdownColumn({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ],
     );
   }
 }
