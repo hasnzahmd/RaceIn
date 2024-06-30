@@ -29,6 +29,41 @@ class FirestoreService {
     return _fetchCollectionData('F1Data', 'races');
   }
 
+  Future<List<Map<String, dynamic>>> fetchCircuits() async {
+    return _fetchCollectionData('F1Data', 'circuits');
+  }
+
+  Future<List<Map<String, dynamic>>> fetchCompetitions() async {
+    return _fetchCollectionData('F1Data', 'competitions');
+  }
+
+  Future<List<Map<String, dynamic>>> fetchNews() async {
+    return _fetchCollectionData('F1Data', 'news');
+  }
+
+  Future<List<Map<String, dynamic>>> fetchTeamsRankings(String season) async {
+    return _fetchCollectionData('TeamsRanking', season);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchDriversRankings(String season) async {
+    return _fetchCollectionData('DriversRanking', season);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchAllDrivers() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('F1Drivers').get();
+
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs.map((doc) => doc.data()).toList();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw Exception('Error fetching drivers data: $e');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> fetchRaces2() async {
     try {
       DocumentSnapshot<Map<String, dynamic>> snapshot =
@@ -54,36 +89,5 @@ class FirestoreService {
     } catch (e) {
       throw Exception('Error fetching data from races2 collection: $e');
     }
-  }
-
-  Future<List<Map<String, dynamic>>> fetchCircuits() async {
-    return _fetchCollectionData('F1Data', 'circuits');
-  }
-
-  Future<List<Map<String, dynamic>>> fetchCompetitions() async {
-    return _fetchCollectionData('F1Data', 'competitions');
-  }
-
-  Future<List<Map<String, dynamic>>> fetchAllDrivers() async {
-    try {
-      QuerySnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection('F1Drivers').get();
-
-      if (snapshot.docs.isNotEmpty) {
-        return snapshot.docs.map((doc) => doc.data()).toList();
-      } else {
-        return [];
-      }
-    } catch (e) {
-      throw Exception('Error fetching drivers data: $e');
-    }
-  }
-
-  Future<List<Map<String, dynamic>>> fetchTeamsRankings(String season) async {
-    return _fetchCollectionData('TeamsRanking', season);
-  }
-
-  Future<List<Map<String, dynamic>>> fetchDriversRankings(String season) async {
-    return _fetchCollectionData('DriversRanking', season);
   }
 }

@@ -91,6 +91,18 @@ class DataService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getNews() async {
+    const cacheKey = 'newsData';
+
+    if (_isCacheValid(cacheKey, cacheDuration)) {
+      return Future.value(_getCacheData(cacheKey));
+    } else {
+      final data = await _firestoreService.fetchNews();
+      _setCacheData(cacheKey, data);
+      return data;
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getAllDrivers() async {
     const cacheKey = 'driversData';
 

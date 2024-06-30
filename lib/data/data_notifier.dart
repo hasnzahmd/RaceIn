@@ -28,6 +28,7 @@ class DataNotifier extends ChangeNotifier {
       _fetchAndCacheData('races2', _dataService.getRaces2),
       _fetchAndCacheData('circuits', _dataService.getCircuits),
       _fetchAndCacheData('competitions', _dataService.getCompetitions),
+      _fetchAndCacheData('news', _dataService.getNews),
       _fetchAndCacheData('drivers', _dataService.getAllDrivers),
     ];
 
