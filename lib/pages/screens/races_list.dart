@@ -143,10 +143,13 @@ class RaceCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 5),
-                      Text(
-                        competition,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      SizedBox(
+                        width: 240,
+                        child: Text(
+                          competition,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),

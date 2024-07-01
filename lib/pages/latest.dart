@@ -28,7 +28,7 @@ class Latest extends StatelessWidget {
                 final news = newsData[index];
                 final imageUrl = news['images'][0]['url'];
                 final imgCaption = news['images'][0]['caption'];
-                final newsLink = news['link'];
+                final newsLink = news['link'].toString();
 
                 return Card(
                   margin: const EdgeInsets.only(
@@ -41,19 +41,22 @@ class Latest extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
-                          color: CustomColors.f1red.withOpacity(0.5),
+                          color: CustomColors.f1red.withOpacity(0.4),
                           width: 3,
                         ),
                         bottom: BorderSide(
-                          color: CustomColors.f1red.withOpacity(0.5),
+                          color: CustomColors.f1red.withOpacity(0.4),
                           width: 3,
                         ),
                         right: BorderSide(
-                          color: CustomColors.f1red.withOpacity(0.5),
+                          color: CustomColors.f1red.withOpacity(0.4),
                           width: 3,
                         ),
                       ),
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +96,7 @@ class Latest extends StatelessWidget {
                                   color: CustomColors.f1red,
                                 ),
                               ),
-                              const SizedBox(height: 3),
+                              const SizedBox(height: 5),
                               Text(
                                 news['description'],
                                 textAlign: TextAlign.justify,
@@ -108,7 +111,7 @@ class Latest extends StatelessWidget {
                                   final Uri uri = Uri.parse(newsLink);
                                   if (await canLaunchUrl(uri)) {
                                     await launchUrl(uri,
-                                        mode: LaunchMode.externalApplication);
+                                        mode: LaunchMode.inAppBrowserView);
                                   } else {
                                     showToast(message: 'Failed to open');
                                   }
