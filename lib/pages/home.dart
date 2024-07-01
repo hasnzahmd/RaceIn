@@ -11,7 +11,7 @@ import 'drivers.dart';
 import 'rankings.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   _HomeState createState() => _HomeState();
@@ -21,8 +21,8 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
   final List<Widget> pages = [
-    Latest(),
-    Races(),
+    const Latest(),
+    const Races(),
     Teams(),
     DriversPage(),
     RankingsPage(),

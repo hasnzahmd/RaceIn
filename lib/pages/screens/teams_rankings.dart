@@ -9,12 +9,13 @@ class TeamsRankingPage extends StatelessWidget {
   final List<Map<String, dynamic>> teams;
   final DataNotifier dataNotifier;
 
-  TeamsRankingPage({required this.teams, required this.dataNotifier});
+  const TeamsRankingPage(
+      {super.key, required this.teams, required this.dataNotifier});
 
   @override
   Widget build(BuildContext context) {
     return teams.isEmpty
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : ListView.builder(
             itemCount: teams.length,
             itemBuilder: (context, index) {
@@ -59,7 +60,7 @@ class TeamsRankingPage extends StatelessWidget {
                   child: ListTile(
                     title: Text(
                       teamName == 'Sauber' ? 'Kick Sauber' : teamName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -74,14 +75,14 @@ class TeamsRankingPage extends StatelessWidget {
                                 height: 30,
                                 width: 30,
                                 errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                    const Icon(Icons.error),
                               ),
                         countryCode == ''
                             ? const SizedBox()
                             : const SizedBox(width: 10),
                         Text(
                           teamEngine,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
@@ -100,16 +101,16 @@ class TeamsRankingPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '${points}',
+                          '$points',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
-                        Text(
+                        const Text(
                           'PTS',
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontStyle: FontStyle.italic,
                               fontSize: 12,
                               fontWeight: FontWeight.bold),

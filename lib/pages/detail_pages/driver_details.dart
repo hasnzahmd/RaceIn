@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class DriverDetailsPage extends StatelessWidget {
   final Map<String, dynamic> driverData;
 
-  DriverDetailsPage({required this.driverData});
+  const DriverDetailsPage({super.key, required this.driverData});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(driverData['name'] ?? 'Driver Details')),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

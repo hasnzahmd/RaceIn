@@ -6,7 +6,7 @@ class DataService {
   final FirestoreService _firestoreService = FirestoreService();
   final Box cacheBox = Hive.box('cacheBox');
 
-  final Duration cacheDuration = Duration(hours: 12);
+  final Duration cacheDuration = const Duration(hours: 12);
   final int currentYear = DateTime.now().year;
 
   Future<void> initializeData() async {
@@ -117,8 +117,9 @@ class DataService {
 
   Future<List<Map<String, dynamic>>> getTeamsRankings(String season) async {
     final cacheKey = 'teamsRankingData_$season';
-    final cacheValidDuration =
-        season == currentYear.toString() ? cacheDuration : Duration(days: 3650);
+    final cacheValidDuration = season == currentYear.toString()
+        ? cacheDuration
+        : const Duration(days: 3650);
     if (_isCacheValid(cacheKey, cacheValidDuration)) {
       return Future.value(_getCacheData(cacheKey));
     } else {
@@ -130,8 +131,9 @@ class DataService {
 
   Future<List<Map<String, dynamic>>> getDriversRankings(String season) async {
     final cacheKey = 'driversRankingData_$season';
-    final cacheValidDuration =
-        season == currentYear.toString() ? cacheDuration : Duration(days: 3650);
+    final cacheValidDuration = season == currentYear.toString()
+        ? cacheDuration
+        : const Duration(days: 3650);
 
     if (_isCacheValid(cacheKey, cacheValidDuration)) {
       return Future.value(_getCacheData(cacheKey));

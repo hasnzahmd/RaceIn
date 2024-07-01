@@ -6,7 +6,7 @@ import 'data_service.dart';
 
 class DataNotifier extends ChangeNotifier {
   final DataService _dataService = DataService();
-  Map<String, List<Map<String, dynamic>>> _dataCache = {};
+  final Map<String, List<Map<String, dynamic>>> _dataCache = {};
   bool _isLoading = true;
 
   bool get isLoading => _isLoading;

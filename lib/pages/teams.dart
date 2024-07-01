@@ -8,6 +8,8 @@ import '../constants/clean_team_name.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class Teams extends StatelessWidget {
+  const Teams({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

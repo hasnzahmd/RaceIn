@@ -9,7 +9,7 @@ class RacesList extends StatelessWidget {
   final List races;
   final int startIndex;
 
-  const RacesList({required this.races, required this.startIndex});
+  const RacesList({super.key, required this.races, required this.startIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +70,7 @@ class RaceCard extends StatelessWidget {
   final int round;
 
   const RaceCard({
+    super.key,
     required this.day,
     required this.date,
     required this.time,

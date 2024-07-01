@@ -6,6 +6,8 @@ import './screens/drivers_rankings.dart';
 import '../data/data_notifier.dart';
 
 class RankingsPage extends StatefulWidget {
+  const RankingsPage({super.key});
+
   @override
   _RankingsPageState createState() => _RankingsPageState();
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class GlowingDot extends StatefulWidget {
   final String dotColor;
 
-  const GlowingDot({Key? key, required this.dotColor}) : super(key: key);
+  const GlowingDot({super.key, required this.dotColor});
 
   @override
   _GlowingDotState createState() => _GlowingDotState();

@@ -9,6 +9,8 @@ import '../constants/team_details.dart';
 import '../constants/teams_colors.dart';
 
 class DriversPage extends StatelessWidget {
+  const DriversPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -109,7 +111,7 @@ class DriversPage extends StatelessWidget {
                                     height: 50,
                                     width: 50,
                                     errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                        const Icon(Icons.error),
                                   ),
                                   SizedBox(
                                     width: 0.37 * screenWidth,
