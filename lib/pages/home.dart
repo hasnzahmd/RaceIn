@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:race_in/constants/custom_colors.dart';
-import 'package:race_in/pages/latest.dart';
 import 'package:provider/provider.dart';
+import '../constants/custom_colors.dart';
 import '../data/data_notifier.dart';
+import '../notifiers/rankings_notifier.dart';
+import '../components/select_app_bar.dart';
+import 'latest.dart';
 import 'teams.dart';
 import 'races.dart';
 import 'drivers.dart';
@@ -18,66 +20,112 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
+  final PageController _pageController = PageController();
 
   final List<Widget> pages = [
     const Latest(),
     const Races(),
-    Teams(),
-    DriversPage(),
-    RankingsPage(),
+    const Teams(),
+    const DriversPage(),
+    const RankingsPage(),
+  ];
+
+  final List<String> pageTitles = [
+    'Latest',
+    'Races',
+    'Teams',
+    'Drivers',
+    'Rankings',
   ];
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: Consumer<DataNotifier>(
-        builder: (context, dataNotifier, child) {
-          if (dataNotifier.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return pages[_selectedIndex];
-          }
-        },
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        index: _selectedIndex,
-        items: const <Widget>[
-          FaIcon(
-            FontAwesomeIcons.newspaper,
-            color: Colors.white,
-            size: 27,
+    return ChangeNotifierProvider(
+      create: (_) => RankingsNotifier(),
+      child: Scaffold(
+        extendBody: true,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: Consumer<DataNotifier>(
+            builder: (context, dataNotifier, child) {
+              return SelectAppBar(
+                  selectedIndex: selectedIndex,
+                  pageTitles: pageTitles,
+                  context: context);
+            },
           ),
-          FaIcon(
-            FontAwesomeIcons.flagCheckered,
-            color: Colors.white,
-          ),
-          ImageIcon(
-            AssetImage(
-              'assets/images/cars.png',
+        ),
+        body: Consumer<DataNotifier>(
+          builder: (context, dataNotifier, child) {
+            if (dataNotifier.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+                children: pages,
+              );
+            }
+          },
+        ),
+        bottomNavigationBar: CurvedNavigationBar(
+          index: selectedIndex,
+          items: const <Widget>[
+            FaIcon(
+              FontAwesomeIcons.newspaper,
+              color: Colors.white,
+              size: 27,
             ),
-            color: Colors.white,
-            size: 30,
-          ),
-          ImageIcon(
-            AssetImage(
-              'assets/images/driver.png',
+            FaIcon(
+              FontAwesomeIcons.flagCheckered,
+              color: Colors.white,
             ),
-            color: Colors.white,
-            size: 30,
-          ),
-          FaIcon(
-            FontAwesomeIcons.trophy,
-            color: Colors.white,
-          ),
-        ],
-        height: 50,
-        color: CustomColors.f1red,
-        buttonBackgroundColor: CustomColors.f1red,
-        backgroundColor: Colors.transparent,
-        animationCurve: Curves.easeInOut,
-        onTap: (index) => setState(() => _selectedIndex = index),
+            ImageIcon(
+              AssetImage(
+                'assets/images/cars.png',
+              ),
+              color: Colors.white,
+              size: 30,
+            ),
+            ImageIcon(
+              AssetImage(
+                'assets/images/driver.png',
+              ),
+              color: Colors.white,
+              size: 30,
+            ),
+            FaIcon(
+              FontAwesomeIcons.trophy,
+              color: Colors.white,
+            ),
+          ],
+          height: 50,
+          color: CustomColors.f1red,
+          buttonBackgroundColor: CustomColors.f1red,
+          backgroundColor: Colors.transparent,
+          animationCurve: Curves.easeInOut,
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+            _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
+        ),
       ),
     );
   }

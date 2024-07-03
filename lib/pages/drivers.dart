@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
-import '../components/custom_app_bar.dart';
 import '../components/glowing_dot.dart';
 import '../data/data_notifier.dart';
 import '../constants/driver_details.dart';
@@ -15,7 +14,6 @@ class DriversPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Drivers'),
       body: Consumer<DataNotifier>(
         builder: (context, dataNotifier, child) {
           if (dataNotifier.isLoading) {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants/custom_colors.dart';
 import '../data/data_notifier.dart';
-import '../components/custom_app_bar.dart';
 import 'screens/races_list.dart';
 
 class Races extends StatelessWidget {
@@ -13,7 +12,6 @@ class Races extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'Races'),
         body: Column(
           children: [
             const TabBar(

@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:race_in/components/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
-import '../components/custom_app_bar.dart';
 import '../constants/custom_colors.dart';
 import '../data/data_notifier.dart';
 
@@ -13,14 +12,11 @@ class Latest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Latest'),
       body: Consumer<DataNotifier>(
         builder: (context, dataNotifier, child) {
           if (dataNotifier.isLoading) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            final screenWidth = MediaQuery.of(context).size.width;
-            final screenHeight = MediaQuery.of(context).size.height;
             final newsData = dataNotifier.getData('news');
             return ListView.builder(
               itemCount: newsData.length,
@@ -63,9 +59,9 @@ class Latest extends StatelessWidget {
                       children: [
                         CachedNetworkImage(
                           imageUrl: imageUrl,
-                          height: screenHeight * 0.24,
-                          width: screenWidth,
-                          fit: BoxFit.fill,
+                          height: 190,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
                         ),

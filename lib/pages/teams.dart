@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../data/data_notifier.dart';
 import '../constants/teams_colors.dart';
 import '../constants/team_details.dart';
-import '../components/custom_app_bar.dart';
 import '../constants/clean_team_name.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -13,7 +12,7 @@ class Teams extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Teams'),
+      //appBar: const CustomAppBar(title: 'Teams'),
       body: Consumer<DataNotifier>(
         builder: (context, dataNotifier, child) {
           if (dataNotifier.isLoading) {
