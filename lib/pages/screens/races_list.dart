@@ -102,66 +102,72 @@ class RaceCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(day,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500)),
+                  Text(
+                    day,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   const SizedBox(height: 1),
-                  Text(date,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500)),
+                  Text(
+                    date,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   const SizedBox(height: 1),
-                  Text(time,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500)),
+                  Text(
+                    time,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 10),
             Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Round $round',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: CustomColors.f1red,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            raceCountry,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                      SizedBox(
-                        width: 240,
-                        child: Text(
-                          competition,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                      Text(
+                        'Round $round',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.f1red,
                         ),
                       ),
+                      const SizedBox(width: 7,),
+                      Text(raceCountry == 'United Arab Emirates'
+                          ? 'UAE'
+                          : raceCountry, style:const TextStyle(
+                        fontSize: 16,
+
+                      ),),
                     ],
                   ),
-                  CachedNetworkImage(
-                    imageUrl: 'https://flagsapi.com/$countryCode/shiny/64.png',
-                    height: 40,
-                    width: 40,
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+                  const SizedBox(height: 4),
+                  Text(
+                    competition,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
+            ),
+            CachedNetworkImage(
+              imageUrl: 'https://flagsapi.com/$countryCode/shiny/64.png',
+              height: 40,
+              width: 40,
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ],
         ),

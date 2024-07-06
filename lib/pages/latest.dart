@@ -30,29 +30,17 @@ class Latest extends StatelessWidget {
                   margin: const EdgeInsets.only(
                     top: 2,
                     bottom: 5,
-                    right: 5,
+                    right: 4,
+                    left: 4
                   ),
                   elevation: 5,
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: CustomColors.f1red.withOpacity(0.4),
-                          width: 3,
-                        ),
-                        bottom: BorderSide(
-                          color: CustomColors.f1red.withOpacity(0.4),
-                          width: 3,
-                        ),
-                        right: BorderSide(
-                          color: CustomColors.f1red.withOpacity(0.4),
-                          width: 3,
-                        ),
+                      border: Border.all(
+                        color: CustomColors.f1red.withOpacity(0.6),
+                        width: 3,
                       ),
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(5),
-                        bottomRight: Radius.circular(5),
-                      ),
+                      borderRadius: BorderRadius.circular(5)
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

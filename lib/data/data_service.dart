@@ -6,7 +6,7 @@ class DataService {
   final FirestoreService _firestoreService = FirestoreService();
   final Box cacheBox = Hive.box('cacheBox');
 
-  final Duration cacheDuration = const Duration(seconds: 10);
+  final Duration cacheDuration = const Duration(hours: 6);
   final int currentYear = DateTime.now().year;
 
   Future<void> initializeData() async {

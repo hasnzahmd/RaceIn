@@ -56,46 +56,44 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-
     final raceCountry = widget.race['competition']['location']['country'];
     final competition = widget.race['competition']['name'];
     final countryCode = _getCountryCode(raceCountry);
-    raceCountry == 'United Arab Emirates' ? 'UAE' : raceCountry;
-
-    final countdown = _formatDuration(_remainingTime);
     final formattedDate = DateFormat('EEE, MMM d, h:mm a').format(raceDateTime);
+    final countdown = _formatDuration(_remainingTime);
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 10, top: 3, left: 3, right: 3),
+      margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
       elevation: 5,
       child: Stack(
         children: [
           Container(
-            height: screenHeight * 0.208,
+            height: screenHeight * 0.22,
             decoration: BoxDecoration(
               image: const DecorationImage(
                 image: AssetImage('assets/images/race.webp'),
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(5.0),
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            height: screenHeight * 0.208,
+            height: screenHeight * 0.22,
             decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                border: Border.all(
-                  color: CustomColors.f1red.withOpacity(0.2),
-                  width: 1.5,
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                ),
-                borderRadius: BorderRadius.circular(5)),
+              color: Colors.white.withOpacity(0.1),
+              border: Border.all(
+                color: CustomColors.f1red.withOpacity(0.2),
+                width: 1.5,
+              ),
+              borderRadius: BorderRadius.circular(5),
+            ),
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(5.0),
@@ -114,10 +112,10 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
                             ),
                           ),
                           Text(
-                            raceCountry,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                            raceCountry == 'United Arab Emirates'
+                                ? 'UAE'
+                                : raceCountry,
+                            style: const TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
@@ -129,7 +127,7 @@ class _ComingRaceCardState extends State<ComingRaceCard> {
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
                           ),
-                          overflow: TextOverflow.visible,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       CachedNetworkImage(

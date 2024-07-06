@@ -35,9 +35,9 @@ class DataNotifier extends ChangeNotifier {
     for (int year = 2017; year <= _dataService.currentYear; year++) {
       futures.addAll([
         _fetchAndCacheData('teamsRanking_$year',
-            () => _dataService.getTeamsRankings(year.toString())),
+                () => _dataService.getTeamsRankings(year.toString())),
         _fetchAndCacheData('driversRanking_$year',
-            () => _dataService.getDriversRankings(year.toString())),
+                () => _dataService.getDriversRankings(year.toString())),
       ]);
     }
 
@@ -59,8 +59,8 @@ class DataNotifier extends ChangeNotifier {
     imageUrls.addAll(
         driverDetails.map((driver) => driver['url']).whereType<String>());
     imageUrls.addAll(_dataCache['drivers']?.map((driver) {
-          return 'https://flagsapi.com/${driver['data'][0]['country']['code']}/shiny/64.png';
-        }).whereType<String>() ??
+      return 'https://flagsapi.com/${driver['data'][0]['country']['code']}/shiny/64.png';
+    }).whereType<String>() ??
         []);
     imageUrls.addAll(teamDetails.map((team) {
       return 'https://flagsapi.com/${team['countryCode']}/shiny/64.png';
@@ -71,7 +71,7 @@ class DataNotifier extends ChangeNotifier {
       final batch = imageUrls.sublist(i,
           i + batchSize > imageUrls.length ? imageUrls.length : i + batchSize);
       await Future.wait(batch.map(
-          (url) => precacheImage(CachedNetworkImageProvider(url), context)));
+              (url) => precacheImage(CachedNetworkImageProvider(url), context)));
     }
   }
 

@@ -56,9 +56,10 @@ class _HomeState extends State<Home> {
           child: Consumer<DataNotifier>(
             builder: (context, dataNotifier, child) {
               return SelectAppBar(
-                  selectedIndex: selectedIndex,
-                  pageTitles: pageTitles,
-                  context: context);
+                selectedIndex: selectedIndex,
+                pageTitles: pageTitles,
+                context: context,
+              );
             },
           ),
         ),
@@ -119,11 +120,7 @@ class _HomeState extends State<Home> {
             setState(() {
               selectedIndex = index;
             });
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
+            _pageController.jumpToPage(index);
           },
         ),
       ),
