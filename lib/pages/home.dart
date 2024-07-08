@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import '../components/custom_app_bar.dart';
 import '../constants/custom_colors.dart';
 import '../data/data_notifier.dart';
 import '../notifiers/rankings_notifier.dart';
-import '../components/select_app_bar.dart';
 import 'latest.dart';
 import 'teams.dart';
 import 'races.dart';
@@ -55,10 +55,9 @@ class _HomeState extends State<Home> {
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Consumer<DataNotifier>(
             builder: (context, dataNotifier, child) {
-              return SelectAppBar(
+              return CustomAppBar(
                 selectedIndex: selectedIndex,
-                pageTitles: pageTitles,
-                context: context,
+                title: pageTitles[selectedIndex],
               );
             },
           ),

@@ -20,6 +20,9 @@ class DriversPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else {
             final drivers = dataNotifier.getData('drivers');
+            final currentYear = DateTime.now().year;
+            final driverRankings =
+                dataNotifier.getData('driversRanking_$currentYear');
             if (drivers.isEmpty) {
               return const Center(child: Text('No drivers found'));
             }
@@ -31,6 +34,15 @@ class DriversPage extends StatelessWidget {
                 final driverName = driver['name'] == 'Carlos Sainz Jr'
                     ? 'Carlos Sainz'
                     : driver['name'];
+
+                int driverId = driver['id'];
+                int driverPoints = 0;
+                for (var rankedDriver in driverRankings) {
+                  if (rankedDriver['driver']['id'] == driverId) {
+                    driverPoints = rankedDriver['points'] ?? 0;
+                    break;
+                  }
+                }
 
                 int teamId = driver['teams'][0]['team']['id'];
                 if (teamId == 8) teamId = 18;
@@ -79,12 +91,18 @@ class DriversPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                driverName,
-                                style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    driverName,
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(driverPoints.toString()),
+                                ],
                               ),
                               const SizedBox(height: 3),
                               Row(
