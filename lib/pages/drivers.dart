@@ -6,6 +6,7 @@ import '../data/data_notifier.dart';
 import '../constants/driver_details.dart';
 import '../constants/team_details.dart';
 import '../constants/teams_colors.dart';
+import '../notifiers/sort_notifier.dart';
 
 class DriversPage extends StatelessWidget {
   const DriversPage({super.key});
@@ -14,8 +15,8 @@ class DriversPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Consumer<DataNotifier>(
-        builder: (context, dataNotifier, child) {
+      body: Consumer2<DataNotifier, SortNotifier>(
+        builder: (context, dataNotifier, sortNotifier, child) {
           if (dataNotifier.isLoading) {
             return const Center(child: CircularProgressIndicator());
           } else {
@@ -23,26 +24,44 @@ class DriversPage extends StatelessWidget {
             final currentYear = DateTime.now().year;
             final driverRankings =
                 dataNotifier.getData('driversRanking_$currentYear');
+
             if (drivers.isEmpty) {
               return const Center(child: Text('No drivers found'));
             }
 
+            // Extract and sort the drivers based on the selected order
+            List<Map<String, dynamic>> sortedDrivers = [];
+            for (var driver in drivers) {
+              final driverData = driver['data'][0];
+              int driverId = driverData['id'];
+              int driverPoints = 0;
+              for (var rankedDriver in driverRankings) {
+                if (rankedDriver['driver']['id'] == driverId) {
+                  driverPoints = rankedDriver['points'] ?? 0;
+                  break;
+                }
+              }
+              sortedDrivers.add({'data': driverData, 'points': driverPoints});
+            }
+
+            sortedDrivers.sort((a, b) {
+              switch (sortNotifier.sortOrder) {
+                case SortOrder.nameAsc:
+                  return a['data']['name'].compareTo(b['data']['name']);
+                case SortOrder.nameDesc:
+                  return b['data']['name'].compareTo(a['data']['name']);
+                case SortOrder.points:
+                  return b['points'].compareTo(a['points']);
+              }
+            });
+
             return ListView.builder(
-              itemCount: drivers.length,
+              itemCount: sortedDrivers.length,
               itemBuilder: (context, index) {
-                final driver = drivers[index]['data'][0];
+                final driver = sortedDrivers[index]['data'];
                 final driverName = driver['name'] == 'Carlos Sainz Jr'
                     ? 'Carlos Sainz'
                     : driver['name'];
-
-                int driverId = driver['id'];
-                int driverPoints = 0;
-                for (var rankedDriver in driverRankings) {
-                  if (rankedDriver['driver']['id'] == driverId) {
-                    driverPoints = rankedDriver['points'] ?? 0;
-                    break;
-                  }
-                }
 
                 int teamId = driver['teams'][0]['team']['id'];
                 if (teamId == 8) teamId = 18;
@@ -91,18 +110,12 @@ class DriversPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    driverName,
-                                    style: const TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(driverPoints.toString()),
-                                ],
+                              Text(
+                                driverName,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const SizedBox(height: 3),
                               Row(

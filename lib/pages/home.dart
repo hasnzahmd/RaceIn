@@ -6,6 +6,7 @@ import '../components/custom_app_bar.dart';
 import '../constants/custom_colors.dart';
 import '../data/data_notifier.dart';
 import '../notifiers/rankings_notifier.dart';
+import '../notifiers/sort_notifier.dart';
 import 'latest.dart';
 import 'teams.dart';
 import 'races.dart';
@@ -47,8 +48,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => RankingsNotifier(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => RankingsNotifier()),
+        ChangeNotifierProvider(create: (_) => SortNotifier()),
+      ],
       child: Scaffold(
         extendBody: true,
         appBar: PreferredSize(

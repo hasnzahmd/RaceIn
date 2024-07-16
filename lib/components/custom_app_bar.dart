@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../notifiers/rankings_notifier.dart';
+import '../notifiers/sort_notifier.dart';
 import '../constants/custom_colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -17,6 +18,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final rankingsNotifier = Provider.of<RankingsNotifier>(context);
+    final sortNotifier = Provider.of<SortNotifier>(context);
+
     List<Widget> actions = [
       if (selectedIndex == 4)
         DropdownButtonHideUnderline(
@@ -44,16 +47,33 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       if (selectedIndex == 3)
-        Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: IconButton(
-            icon: const FaIcon(
-              FontAwesomeIcons.arrowDownAZ,
-              color: Colors.white,
-              size: 17,
-            ),
-            onPressed: () {},
-          ),
+        IconButton(
+          icon: sortNotifier.sortOrder == SortOrder.points
+              ? Icon(
+                  FontAwesomeIcons.rankingStar,
+                  color: Colors.white,
+                )
+              // const ImageIcon(
+              //     AssetImage('assets/images/rank.png'),
+              //     color: Colors.white,
+              //     size: 30,
+              //   )
+              : Icon(
+                  sortNotifier.sortOrder == SortOrder.nameAsc
+                      ? FontAwesomeIcons.arrowDownAZ
+                      : FontAwesomeIcons.arrowDownZA,
+                  color: Colors.white,
+                  size: 20,
+                ),
+          onPressed: () {
+            if (sortNotifier.sortOrder == SortOrder.nameAsc) {
+              sortNotifier.setSortOrder(SortOrder.nameDesc);
+            } else if (sortNotifier.sortOrder == SortOrder.nameDesc) {
+              sortNotifier.setSortOrder(SortOrder.points);
+            } else {
+              sortNotifier.setSortOrder(SortOrder.nameAsc);
+            }
+          },
         ),
       IconButton(
         icon: const Icon(Icons.menu_rounded, size: 30, color: Colors.white),
