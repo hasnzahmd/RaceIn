@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum SortOrder { nameAsc, nameDesc, points }
+enum SortOrder { nameAsc, teamName, points }
 
 class SortNotifier extends ChangeNotifier {
   SortOrder _sortOrder = SortOrder.nameAsc;

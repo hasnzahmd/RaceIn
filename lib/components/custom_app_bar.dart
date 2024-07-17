@@ -48,27 +48,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       if (selectedIndex == 3)
         IconButton(
-          icon: sortNotifier.sortOrder == SortOrder.points
-              ? Icon(
-                  FontAwesomeIcons.rankingStar,
+          icon: sortNotifier.sortOrder == SortOrder.teamName
+              ? const ImageIcon(
+                  AssetImage('assets/images/cars.png'),
                   color: Colors.white,
+                  size: 25,
                 )
-              // const ImageIcon(
-              //     AssetImage('assets/images/rank.png'),
-              //     color: Colors.white,
-              //     size: 30,
-              //   )
               : Icon(
                   sortNotifier.sortOrder == SortOrder.nameAsc
                       ? FontAwesomeIcons.arrowDownAZ
-                      : FontAwesomeIcons.arrowDownZA,
+                      : FontAwesomeIcons.rankingStar,
                   color: Colors.white,
                   size: 20,
                 ),
           onPressed: () {
             if (sortNotifier.sortOrder == SortOrder.nameAsc) {
-              sortNotifier.setSortOrder(SortOrder.nameDesc);
-            } else if (sortNotifier.sortOrder == SortOrder.nameDesc) {
+              sortNotifier.setSortOrder(SortOrder.teamName);
+            } else if (sortNotifier.sortOrder == SortOrder.teamName) {
               sortNotifier.setSortOrder(SortOrder.points);
             } else {
               sortNotifier.setSortOrder(SortOrder.nameAsc);

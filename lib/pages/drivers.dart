@@ -42,14 +42,24 @@ class DriversPage extends StatelessWidget {
                 }
               }
               sortedDrivers.add({'data': driverData, 'points': driverPoints});
+
+              int teamId = driverData['teams'][0]['team']['id'];
+              if (teamId == 8) teamId = 18;
+              for (var team in teamDetails) {
+                if (team['id'] == teamId) {
+                  driverData['teams'][0]['team']['name'] = team['name'];
+                  break;
+                }
+              }
             }
 
             sortedDrivers.sort((a, b) {
               switch (sortNotifier.sortOrder) {
                 case SortOrder.nameAsc:
                   return a['data']['name'].compareTo(b['data']['name']);
-                case SortOrder.nameDesc:
-                  return b['data']['name'].compareTo(a['data']['name']);
+                case SortOrder.teamName:
+                  return a['data']['teams'][0]['team']['name']
+                      .compareTo(b['data']['teams'][0]['team']['name']);
                 case SortOrder.points:
                   return b['points'].compareTo(a['points']);
               }
@@ -66,13 +76,13 @@ class DriversPage extends StatelessWidget {
                 int teamId = driver['teams'][0]['team']['id'];
                 if (teamId == 8) teamId = 18;
 
-                String teamName = '';
-                for (var team in teamDetails) {
-                  if (team['id'] == teamId) {
-                    teamName = team['name'];
-                    break;
-                  }
-                }
+                String teamName = driver['teams'][0]['team']['name'];
+                // for (var team in teamDetails) {
+                //   if (team['id'] == teamId) {
+                //     teamName = team['name'];
+                //     break;
+                //   }
+                // }
 
                 String imageUrl = '';
                 for (var driverDetail in driverDetails) {
